@@ -1,0 +1,29 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection('projects');
+---
+<div id="projects">
+    <SectionHeader title="Projets" />
+
+    <ul class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] pt-4">
+        {
+            projects
+            .sort((a, b) => b.data.order - a.data.order)
+            .map((project) => (
+                <li>
+                    <ProjectCard
+                        title={project.data.title}
+                        techs={project.data.techs}
+                        description={project.data.description}
+                        imagePath={project.data.images[0].path}
+                        url={`/projects/${project.slug}`}`}
+                        seeMoreButton={true}
+                    />
+                </li>
+            ))
+        }
+    </ul>
+</div>

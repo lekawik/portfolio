@@ -1,0 +1,307 @@
+---
+const menuItems = [
+    { name: "Accueil", href: "/" },
+    { name: "À propos", href: "#about" },
+    { name: "Projets", href: "#projects" },
+];
+
+const socialLinks = [
+    {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com/in/soren-samama/",
+        icon: "fa-linkedin",
+    },
+    {
+        name: "GitHub",
+        href: "https://github.com/lekawik",
+        icon: "fa-github" 
+    },
+    {
+        name: "Email",
+        href: "mailto:soren@ssamama.com",
+        icon: "fa-envelope",
+    },
+];
+---
+
+<html>
+    <body>
+        <header class="header bg-white/70 backdrop-blur dark:bg-black/80">
+            <div class="max-w-screen-md mx-auto px-5">
+                <div class="flex items-center justify-between">
+                    <a
+                        href="/"
+                        class="text-title2 font-bold text-primary-text dark:text-primary-text-dark"
+                    >
+                        Soren SAMAMA
+                    </a>
+
+                    <div class="flex items-center gap-5">
+                        <div class="socials-nav-bar hidden sm:flex items-center space-x-4 text-primary-text dark:text-primary-text-dark">
+                            {socialLinks.map((link) => (
+                              <a
+                                href={link.href}
+                                class="social-icon text-title2"
+                                target="_blank"
+                              >
+                                <i class={`fa ${link.icon}`} />
+                              </a>
+                            ))}
+                          </div>
+    
+                        <div class="burger-container">
+                            <div id="burger">
+                                <div
+                                    class="bar topBar bg-primary-text dark:bg-primary-text-dark"
+                                >
+                                </div>
+                                <div
+                                    class="bar btmBar bg-primary-text dark:bg-primary-text-dark"
+                                >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content mt-10">
+                    <ul class="menu">
+                        {
+                            menuItems.map((item, index) => (
+                                
+                                <li
+                                    class="menu-item text-title2 font-medium text-primary-text dark:text-primary-text-dark"
+                                    style={`transition-delay: ${0.1 + index * 0.07}s`}
+                                >
+                                    <a href={item.href}>{item.name}</a>
+                                </li>
+                            ))
+                        }
+                    </ul>
+
+                    <div
+                        class="social-links flex space-x-4 mt-10 text-primary-text dark:text-primary-text-dark"
+                        style={`transition-delay: ${0.1 + menuItems.length * 0.07}s`}
+                    >
+                        {
+                            socialLinks.map((link) => (
+                                <a
+                                    href={link.href}
+                                    class="social-icon text-title2"
+                                    target="_blank"
+                                >
+                                    <i class={`fa ${link.icon}`} />
+                                </a>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </header>
+    </body>
+
+    <script>
+        function initializeMenuLinks() {
+            const burger = document.querySelector(".burger-container");
+            const header = document.querySelector(".header");
+            const menuLinks = document.querySelectorAll(".menu a");
+            const socialLinksNav = document.querySelector(".socials-nav-bar");
+            const offset = 60;
+
+            if (!burger || !header) return;
+
+            // Toggle menu open/close on burger click
+            (burger as HTMLElement).onclick = function () {
+                header.classList.toggle("menu-opened");
+
+                if (window.innerWidth >= 1024 && socialLinksNav) {
+                    socialLinksNav.classList.toggle("social-hidden");
+                }
+            };
+
+            // Close menu and adjust scroll for # links
+            menuLinks.forEach((link) => {
+                link.addEventListener("click", function (event) {
+                    const href = link.getAttribute("href");
+
+                    if (!href) return;
+
+                    // Check if it's a # link
+                    if (href.startsWith("#")) {
+                        event.preventDefault();
+                        header.classList.remove("menu-opened");
+
+                        if (socialLinksNav) {
+                            socialLinksNav.classList.remove("social-hidden");
+                        }
+
+                        // Always redirect to home page with hash
+                        if (window.location.pathname !== "/") {
+                            window.location.href = "/" + href;
+                            return;
+                        }
+
+                        // If we're already on the home page, smooth scroll to the section
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            window.scrollTo({
+                                top: elementPosition - offset,
+                                behavior: "smooth",
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Close menu when clicking the background (outside content and burger)
+            header.addEventListener("click", function (event) {
+                if (!header.classList.contains("menu-opened")) return;
+                const target = event.target as HTMLElement;
+                const clickedInsideContent = target.closest(".content");
+                const clickedBurger = target.closest(".burger-container");
+                if (!clickedInsideContent && !clickedBurger) {
+                    header.classList.remove("menu-opened");
+                    if (socialLinksNav) {
+                        socialLinksNav.classList.remove("social-hidden");
+                    }
+                }
+            });
+
+            // Close menu on Escape key
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && header.classList.contains("menu-opened")) {
+                    header.classList.remove("menu-opened");
+                    if (socialLinksNav) {
+                        socialLinksNav.classList.remove("social-hidden");
+                    }
+                }
+            });
+        }
+
+        initializeMenuLinks();
+
+        // Run on initial load
+        // document.addEventListener("DOMContentLoaded", initializeMenuLinks);
+
+        // Listen to all event
+        // document.addEventListener("astro:page-load", initializeMenuLinks);  
+        // document.addEventListener("astro:page-transition", initializeMenuLinks);
+    </script>
+
+    <style>
+        @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css);
+
+        :root {
+            --cubic: cubic-bezier(0.4, 0.01, 0.165, 0.99);
+        }
+
+        body {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 55px;
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            z-index: 1;
+        }
+
+        .burger-container {
+            display: inline-block;
+            height: 55px;
+            width: 50px;
+            cursor: pointer;
+            transform: rotate(0deg);
+            transition: all 0.3s var(--cubic);
+        }
+
+        #burger {
+            width: 18px;
+            height: 8px;
+            margin: -4px 0px 0px auto;
+            top: 50%;
+            position: relative;
+        }
+
+        .bar {
+            width: 100%;
+            height: 2px;
+            border-radius: 10px;
+            transition: all 0.3s var(--cubic);
+        }
+
+        .topBar {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        .btmBar {
+            transform: translateY(6px) rotate(0deg);
+        }
+
+        .menu {
+            display: block;
+            list-style: none;
+        }
+
+        .menu-item {
+            opacity: 0;
+            transform: translateY(-15px);
+            transition:
+                transform 0.5s var(--cubic),
+                opacity 0.6s var(--cubic);
+        }
+
+        .menu a {
+            display: block; /* make the whole area clickable */
+            line-height: 2.35;
+        }
+
+        .social-links {
+            opacity: 0;
+            transform: translateY(-15px);
+            transition:
+                transform 0.5s var(--cubic),
+                opacity 0.6s var(--cubic);
+        }
+
+        .menu-opened {
+            height: 100%;
+            transition:
+                all 0.3s ease-in,
+                background 0.3s ease-in;
+        }
+
+        .menu-opened .topBar {
+            transform: translateY(4px) rotate(45deg);
+        }
+
+        .menu-opened .btmBar {
+            transform: translateY(2px) rotate(-45deg);
+        }
+
+        .menu-opened .menu-item {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        .menu-opened .social-links {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        .socials-nav-bar {
+            opacity: 1;
+            transition: transform 0.5s var(--cubic), opacity 0.6s var(--cubic);
+        }
+
+        .social-hidden {
+            opacity: 0;
+        }
+    </style>
+</html>

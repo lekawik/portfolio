@@ -1,16 +1,12 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectSection from "../components/ProjectSection.astro";
+import AboutSection from "../components/AboutSection.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+	<div class="mx-auto max-w-screen-md px-5 flex flex-col gap-8">
+		<AboutSection />
+		<ProjectSection />
+	</div>
+</BaseLayout>

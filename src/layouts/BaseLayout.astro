@@ -1,0 +1,38 @@
+---
+import Header from "../components/Header.astro";
+
+interface Props {
+    title?: string;
+    ogImage?: string;
+}
+
+const { title, ogImage } = Astro.props;
+const pageTitle = title ? `${title} - Soren SAMAMA` : "Soren SAMAMA";
+---
+
+<html lang="fr" class="bg-background-primary dark:bg-background-primary-dark">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="https://ssamama.com/assets/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="https://ssamama.com/assets/favicon.png" />
+        <link rel="shortcut icon" sizes="192x192" href="https://ssamama.com/assets/favicon.png" />
+        <link rel="apple-touch-icon" href="https://ssamama.com/assets/favicon.png" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+        <meta name="description" content="Soren SAMAMA's portfolio" />
+        <meta name="format-detection" content="telephone=no">
+        <title>{pageTitle}</title>
+        <meta name="og:title" content={pageTitle} />
+        <meta name="og:description" content="Soren SAMAMA's portfolio" />
+        {ogImage && <meta property="og:image" content={ogImage} />}
+    </head>
+
+    <body class="">
+        <Header class="z-50 relative" />
+        <main class="pt-[80px] pb-4 flex-grow">
+            <slot />
+        </main>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import ProjectsSlider from "../../components/Carousel.jsx";
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+
+    return projects.map((project) => {
+        return {
+            params: {
+                slug: project.slug,
+            },
+            props: {
+                project,
+            },
+        };
+    });
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<BaseLayout 
+    title={project.data.title}
+    ogImage={project.data.images[0].path}
+>
+    <div class="mx-auto max-w-screen-md px-5">
+        <div class="space-y-1">
+            <SectionHeader title={project.data.title} />
+            <p
+                class="text-body text-secondary-text dark:text-secondary-text-dark"
+            >
+                {project.data.description}
+            </p>
+        </div>
+
+        <div class="my-10 relative z-0">
+            <ProjectsSlider images={project.data.images} client:load/>
+        </div>
+
+        <div class="prose dark:prose-invert !max-w-none">
+            <Content />
+        </div>
+    </div>
+</BaseLayout>
