@@ -7,11 +7,12 @@ interface Props {
     description: string;
     imagePath: string;
     url: string;
-    seeMoreButton: Boolean;
+    seeMoreButton: boolean;
 }
 
 const { title, techs, description, imagePath, url, seeMoreButton } =
     Astro.props;
+const isLocalPublicAsset = imagePath.startsWith("/");
 ---
 
 <a
@@ -19,7 +20,13 @@ const { title, techs, description, imagePath, url, seeMoreButton } =
     class={`w-fit h-fit ${seeMoreButton ? "" : "pointer-events-none cursor-default"}`}
 >
     <div class="border border-gray">
-        <Image src={imagePath} alt="" inferSize={true}/>
+        {
+            isLocalPublicAsset ? (
+                <img src={imagePath} alt="" loading="lazy" decoding="async" />
+            ) : (
+                <Image src={imagePath} alt="" inferSize={true} />
+            )
+        }
 
         <div class="border-t border-gray"></div>
 
