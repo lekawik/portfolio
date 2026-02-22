@@ -9,7 +9,10 @@ export const collections = {
             order: z.number(),
             images: z.array(z.object({
                 path: z.string(),
-                alt: z.string()
+                alt: z.string(),
+                type: z.enum(["image", "video"]).optional(),
+                caption: z.string().optional(),
+                poster: z.string().optional(),
             })),
         })
     })
