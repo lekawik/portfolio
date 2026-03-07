@@ -94,5 +94,5 @@ Ce projet m’a permis de :
 ---
 
 ### Liens utiles  
-- <a href="https://github.com/lekawik/PolyApp_UIKit/tree/main/PolyApp" target="_blank">PolyApp (iOS)</a>  
-- <a href="https://github.com/lekawik/PolyAppApi" target="_blank">PolyApp API (Schedule backbone)</a>  
+- <a href="https://github.com/lekawik/PolyApp.git" target="_blank">PolyApp (iOS)</a>  
+- <a href="https://github.com/lekawik/PolyAppApi.git" target="_blank">PolyApp API (Schedule backbone)</a>  
