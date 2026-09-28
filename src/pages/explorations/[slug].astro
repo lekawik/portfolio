@@ -75,7 +75,7 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                     }
                 }`}
             >
-                <div class="sticky top-[55px] z-[1] py-2 bg-background-primary/80 dark:bg-background-primary-dark/80 backdrop-blur">
+                <div class="tabbar sticky top-[54px] z-[1] -mx-5 px-5 pt-3 pb-2 bg-white/70 dark:bg-black/80 backdrop-blur">
                     <div class="segmented inline-flex w-full sm:w-auto p-1 rounded-full bg-background-secondary dark:bg-background-secondary-dark" role="tablist">
                         {rendered.map(({ part }, i) => (
                             <button
