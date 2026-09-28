@@ -61,9 +61,18 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                 x-data={`{
                     tabs: ${JSON.stringify(tabIds)},
                     active: '${tabIds[0]}',
+                    pinned: false,
                     init() {
                         const h = window.location.hash.replace('#', '');
                         if (this.tabs.includes(h)) this.active = h;
+                        // pinned = the sentinel above the tab bar has scrolled under the header:
+                        // the tab bar then becomes the one blurred surface for header + tabs
+                        const header = document.querySelector('.header');
+                        const io = new IntersectionObserver(([e]) => {
+                            this.pinned = e.boundingClientRect.top < 56;
+                            header?.classList.toggle('subbar-pinned', this.pinned);
+                        }, { rootMargin: '-56px 0px 0px 0px', threshold: [0, 1] });
+                        io.observe(this.$refs.sentinel);
                         window.addEventListener('hashchange', () => {
                             const n = window.location.hash.replace('#', '');
                             if (this.tabs.includes(n)) this.active = n;
@@ -75,7 +84,9 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                     }
                 }`}
             >
-                <div class="tabbar sticky top-[54px] z-[1] -mx-5 px-5 pt-3 pb-2 bg-white/70 dark:bg-black/80 backdrop-blur">
+                <div x-ref="sentinel" class="h-px"></div>
+                <div class="tabbar" :class="pinned && 'is-pinned'">
+                  <div class="mx-auto max-w-screen-md px-5 pt-[63px] pb-2 -mt-[55px]">
                     <div class="segmented inline-flex w-full sm:w-auto p-1 rounded-full bg-background-secondary dark:bg-background-secondary-dark" role="tablist">
                         {rendered.map(({ part }, i) => (
                             <button
@@ -89,6 +100,7 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                             </button>
                         ))}
                     </div>
+                  </div>
                 </div>
 
                 {rendered.map(({ part, Content: PartContent }, i) => (
@@ -117,6 +129,26 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
 
 <style is:global>
     [x-cloak] { display: none !important; }
+    /* One blurred surface for header + tabs while pinned: the tab bar is full-bleed,
+       sticks at the very top under the header, and the header drops its own
+       background so nothing is blurred twice. */
+    .header { z-index: 2 !important; }
+    .tabbar {
+        position: sticky; top: 0; z-index: 1;
+        margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+        transition: background-color 0.2s;
+    }
+    .tabbar.is-pinned {
+        background: rgba(255, 255, 255, 0.7);
+        -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
+    .header.subbar-pinned:not(.menu-opened) {
+        background: transparent !important;
+        -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+    }
+    @media (prefers-color-scheme: dark) {
+        .tabbar.is-pinned { background: rgba(0, 0, 0, 0.8); }
+    }
     .segment.is-active {
         background: rgba(255, 255, 255, 1);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(0, 0, 0, 0.08);
