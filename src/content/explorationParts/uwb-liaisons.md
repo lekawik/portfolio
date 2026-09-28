@@ -9,7 +9,7 @@ order: 3
 Sans téléphone, les trois cartes forment un petit réseau : chacune émet à son tour dans un créneau, et chaque trame porte l'heure d'émission et l'heure de réception des dernières trames entendues. Avec ces horodatages, chaque carte reconstruit *toutes* les distances du groupe, y compris celles qu'elle n'a pas mesurées elle-même. Pas de maître, pas d'ancre : une carte qui arrive écoute, prend un créneau libre, et la matrice des distances se met à jour chez tout le monde.
 
 <figure>
-  <svg class="fig-uwb-mesh-superframe w-full h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 240" role="img" aria-label="Superframe layout for ten nodes">
+  <svg class="fig-uwb-mesh-superframe w-full h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 246" role="img" aria-label="Superframe layout for ten nodes">
 <style>.fig-uwb-mesh-superframe { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; }
   .fig-uwb-mesh-superframe { --ink:#14213d; --muted:#5b6472; --tint:#eef3f5; --rng:#0f7c8a; --rng-soft:#d5edf0; --dat:#d98a1f; --dat-soft:#f8e3c2; --paper:#fff; }
   @media (prefers-color-scheme: dark) { .fig-uwb-mesh-superframe { --ink:#f2f2f7; --muted:#a1a1aa; --tint:#1c1c1e; --rng:#4fc3d1; --rng-soft:#0f3b42; --dat:#f0b35a; --dat-soft:#4a3410; --paper:#000; } }
@@ -51,23 +51,24 @@ Sans téléphone, les trois cartes forment un petit réseau : chacune émet à s
       </g>
     </g>
     <text x="42" y="82" class="t-s">R0 … R9 : section de mesure, 10 × 603 µs</text>
-    <text x="660" y="82" text-anchor="end" class="t-s">section de données, 10 × 1783 µs — le créneau d appartient au nœud d mod N</text>
+    <text x="660" y="82" text-anchor="end" class="t-s">section de données, 10 × 1783 µs — créneau d au nœud d mod N</text>
     <!-- zoom ranging slot -->
     <path d="M20 90 L20 120 M36.2 66 L36.2 90 L300 120" class="ln-m dash"/>
     <text x="20" y="168" class="t-b">un créneau de mesure, 603 µs</text>
     <rect x="20" y="122" width="70" height="30" class="box-t"/><text x="55" y="141" text-anchor="middle" class="t-s">150 µs</text>
     <rect x="90" y="122" width="140" height="30" class="rng"/><text x="160" y="141" text-anchor="middle" class="t-w">trame 142 o · 302 µs</text>
     <rect x="230" y="122" width="70" height="30" class="box-t"/><text x="265" y="141" text-anchor="middle" class="t-s">garde</text>
-    <text x="20" y="182" class="t-s">marge de synchro 150 µs · la garde inclut les ~150 µs de réarmement du récepteur</text>
+    <text x="20" y="182" class="t-s">150 µs de marge · garde = réarmement du récepteur</text>
     <!-- zoom data slot -->
     <path d="M612.2 66 L612.2 90 L340 120 M660 90 L660 120" class="ln-m dash"/>
     <text x="340" y="168" class="t-b">un créneau de données, 1783 µs</text>
     <rect x="340" y="122" width="27" height="30" class="box-t"/>
     <rect x="367" y="122" width="266" height="30" class="dat"/><text x="500" y="141" text-anchor="middle" class="t-w">trame 1021 o · 1482 µs en l'air</text>
     <rect x="633" y="122" width="27" height="30" class="box-t"/>
-    <text x="340" y="182" class="t-s">en-tête + horodatages ≈ 60–120 o, le reste (≈ 900–960 o) est de la donnée</text>
-    <text x="20" y="216" class="t-s">Taux d'occupation ≈ 75 %. Le quart restant, ce sont les marges qui rendent le cadencement robuste : erreur d'horloge entre nœuds, temps pendant lequel</text>
-    <text x="20" y="228" class="t-s">un récepteur est aveugle en se réarmant, préambule et en-têtes. À l'échelle horizontalement dans chaque ligne.</text>
+    <text x="340" y="182" class="t-s">en-tête + horodatages ≈ 60–120 o, données ≈ 900–960 o</text>
+    <text x="20" y="212" class="t-s">Taux d'occupation ≈ 75 %. Le quart restant, ce sont les marges qui rendent le cadencement robuste :</text>
+    <text x="20" y="224" class="t-s">erreur d'horloge entre nœuds, temps où un récepteur est aveugle en se réarmant, préambule et en-têtes.</text>
+    <text x="20" y="236" class="t-s">À l'échelle horizontalement dans chaque ligne.</text>
   </svg>
   <figcaption>Le temps est découpé en créneaux : d'abord une courte trame de mesure par nœud, puis un créneau de données par nœud, prêté aux autres quand il est vide.</figcaption>
 </figure>
