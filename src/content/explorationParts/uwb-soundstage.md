@@ -12,7 +12,7 @@ Un home-cinéma sait faire venir un son de la gauche ou de la droite, quand on e
 **Le montage.** Trois balises scotchées aux murs, qui se mesurent entre elles au démarrage puis se mettent en mode FiRa dès que le téléphone se connecte. L'iPhone fusionne UWB et caméra et envoie sa position 20 fois par seconde au Mac. Le Mac calcule, pour chaque enceinte, un retard et un gain à partir de la position de l'auditeur, répartit l'objet sur les deux enceintes qui l'encadrent *vu de l'auditeur*, et sort 8 canaux par HDMI vers l'ampli en mode direct.
 
 <figure>
-  <img src="/assets/UWB-SoundStage-Map.webp" alt="La carte du salon dans l'app Mac" />
+  <img src="/assets/UWB-SoundStage-Map.webp" alt="La carte du salon dans l'app Mac" class="rounded-2xl" />
   <figcaption>L'app Mac : pour chaque enceinte, le retard (ms) et le gain (×) du moment. L'objet « Voix » est réparti sur L et C, les deux enceintes qui l'encadrent vu de l'auditeur.</figcaption>
 </figure>
 
@@ -21,8 +21,8 @@ Un home-cinéma sait faire venir un son de la gauche ou de la droite, quand on e
 **Et calibrées par le son.** Une bouffée de bruit rose par enceinte, mesurée au micro du téléphone en neuf points ; on en déduit le niveau de chaque enceinte et son timbre par bande d'octave. Résultat mesuré : les enceintes avant étaient 2 à 3 dB trop fortes et plus riches à 500 Hz, les arrières plus présentes à 2 kHz. Deux corrections, et la voix garde le même timbre en passant de l'avant à l'arrière.
 
 <figure>
-  <img src="/assets/UWB-SoundStage-Levels.png" alt="Calibration des niveaux par enceinte" />
-  <figcaption>La calibration : le téléphone vérifie d'abord sa propre linéarité (un pas de 6 dB doit se mesurer à 6 dB ± 0,5), puis mesure chaque enceinte.</figcaption>
+  <img src="/assets/UWB-SoundStage-Phone.webp" alt="L'app iPhone pendant le suivi" class="max-w-xs mx-auto rounded-3xl" />
+  <figcaption>Le téléphone : distance à chaque balise, position fusionnée et, en dessous, le mode relevé au micro. La calibration vérifie d'abord sa propre linéarité (un pas de 6 dB doit se mesurer à 6 dB ± 0,5), puis mesure chaque enceinte.</figcaption>
 </figure>
 
 ## Ce que ça ne peut pas faire, et pourquoi

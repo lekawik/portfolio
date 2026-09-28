@@ -10,10 +10,10 @@ takeaways: [
     "Le rendu sonore par enceintes place très bien la direction et jamais la distance : c'est une limite physique, pas logicielle."
 ]
 images: [
-    { path: '/assets/UWB-SoundStage-Phone.webp', alt: "L'app iPhone : trois balises, la position, la carte du salon", caption: "L'app SoundStage sur l'iPhone : distance à chaque balise (A, B, C), position fusionnée, carte du salon" },
-    { path: '/assets/UWB-Node-Wiring.svg', alt: "Une balise : le shield DWM3000EVB relié au Pico", caption: "Une balise : shield Qorvo DWM3000EVB câblé à un Raspberry Pi Pico" },
-    { path: '/assets/UWB-RoomSense-room-view-ar-anchored.png', alt: "RoomSense : la pièce vue par l'app, ancrée dans ARKit", caption: "RoomSense : la pièce et les objets appris, ancrés dans le repère de la caméra" },
-    { path: '/assets/UWB-SoundStage-Map.webp', alt: "SoundStage sur le Mac : enceintes, balises, auditeur et objet sonore", caption: "SoundStage sur le Mac : enceintes (bleu), balises A/B/C, auditeur (vert) et l'objet « Voix » ; pour chaque enceinte, le retard et le gain du moment" }
+    { path: '/assets/UWB-Header.webp', alt: "L'app SoundStage sur l'iPhone : trois balises, la position, la carte du salon", caption: "L'iPhone mesure sa distance à trois balises (A, B, C) et se place sur la carte du salon" },
+    { path: '/assets/UWB-RoomSense.webp', alt: "RoomSense : la pièce et les objets appris, puis l'approche d'un thermostat", caption: "RoomSense : la pièce et les objets appris ; en s'approchant du thermostat, sa fiche s'ouvre" },
+    { path: '/assets/UWB-SoundStage.webp', alt: "SoundStage sur le Mac : enceintes, balises, auditeur et objet sonore", caption: "SoundStage sur le Mac : l'objet « Voix » est réparti sur les deux enceintes qui l'encadrent vu de l'auditeur, avec le retard et le gain de chaque enceinte" },
+    { path: '/assets/UWB-Mesh.webp', alt: "Le visualiseur du maillage : cinq cartes, la matrice des distances, les liaisons de données", caption: "Cinq cartes en simulation : la constellation, la matrice des distances et les liaisons de données, telles que n'importe quelle carte les voit" }
 ]
 ---
 

@@ -42,7 +42,7 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
             <ProjectsSlider images={exploration.data.images} client:load />
         </div>
 
-        <aside class="border border-gray px-4 py-3 mb-8">
+        <aside class="rounded-3xl bg-background-secondary dark:bg-background-secondary-dark px-5 py-4 mb-8">
             <p class="text-title3 font-bold text-primary-text dark:text-primary-text-dark mb-2">Ce que j'en retiens</p>
             <ul class="list-disc pl-5 space-y-1">
                 {exploration.data.takeaways.map((t) => (
@@ -75,18 +75,20 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                     }
                 }`}
             >
-                <div class="flex flex-wrap gap-2 border-b border-gray" role="tablist">
-                    {rendered.map(({ part }, i) => (
-                        <button
-                            role="tab"
-                            class="px-4 py-2 -mb-px border border-b-0 border-gray text-title3 text-primary-text dark:text-primary-text-dark"
-                            :class={`active === '${tabIds[i]}' ? 'bg-background-secondary dark:bg-background-secondary-dark font-bold' : 'opacity-60 hover:opacity-100'`}
-                            :aria-selected={`active === '${tabIds[i]}'`}
-                            @click={`select('${tabIds[i]}')`}
-                        >
-                            {part.data.tab}
-                        </button>
-                    ))}
+                <div class="sticky top-[55px] z-[1] py-2 bg-background-primary/80 dark:bg-background-primary-dark/80 backdrop-blur">
+                    <div class="segmented inline-flex w-full sm:w-auto p-1 rounded-full bg-background-secondary dark:bg-background-secondary-dark" role="tablist">
+                        {rendered.map(({ part }, i) => (
+                            <button
+                                role="tab"
+                                class="segment flex-1 sm:flex-none px-5 py-2 rounded-full text-body font-medium transition-colors duration-200 text-primary-text dark:text-primary-text-dark"
+                                :class={`active === '${tabIds[i]}' ? 'is-active' : 'opacity-60 hover:opacity-100'`}
+                                :aria-selected={`active === '${tabIds[i]}'`}
+                                @click={`select('${tabIds[i]}')`}
+                            >
+                                {part.data.tab}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {rendered.map(({ part, Content: PartContent }, i) => (
@@ -101,7 +103,7 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                             <PartContent />
                         </div>
                         {(part.data.islands ?? []).map((island) => (
-                            <div class="my-8 border border-gray p-4">
+                            <div class="my-8">
                                 {island === "soundstage-walk" && <SoundStageWalk client:visible />}
                                 {island === "uwb-trilateration" && <UwbTrilateration client:visible />}
                             </div>
@@ -115,4 +117,13 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
 
 <style is:global>
     [x-cloak] { display: none !important; }
+    .segment.is-active {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+        .segment.is-active { background: rgba(58, 58, 60, 1); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+    }
+    [role="tabpanel"] { animation: tabin 0.35s ease-out both; }
+    @keyframes tabin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 </style>
