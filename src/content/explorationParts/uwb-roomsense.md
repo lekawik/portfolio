@@ -2,7 +2,7 @@
 parent: 'uwb'
 tab: 'RoomSense'
 order: 1
-islands: ["uwb-trilateration"]
+islands: ["body-block-story"]
 ---
 
 ## Une maison qui sait où l'on est
@@ -35,4 +35,4 @@ Deux balises au mur, l'iPhone dans la main. L'app connaît la distance à chacun
 - Deux balises espacées d'un mètre et des objets à 2,5 m : 5 cm d'erreur sur une balise font 3°, donc 15 cm à l'objet. Il faut écarter les balises, ou en ajouter une troisième. C'est ce qui a mené à SoundStage.
 - La sensation « ça marche au millimètre » vient surtout de la caméra ; l'UWB, lui, garantit que la carte ne dérive pas.
 
-Dessous, un petit simulateur : trois balises, un téléphone qu'on déplace, et ce que fait une distance faussée par le corps.
+Dessous, l'histoire en six étapes : trois balises, un téléphone, et ce que fait une distance faussée par le corps.

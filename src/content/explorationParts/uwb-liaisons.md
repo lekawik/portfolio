@@ -2,6 +2,7 @@
 parent: 'uwb'
 tab: 'Liaisons de données'
 order: 3
+islands: ["superframe-animation", "key-numbers-mesh"]
 ---
 
 ## Les cartes entre elles

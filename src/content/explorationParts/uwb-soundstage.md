@@ -2,7 +2,7 @@
 parent: 'uwb'
 tab: 'SoundStage'
 order: 2
-islands: ["soundstage-walk"]
+islands: ["calibration-chart", "soundstage-walk", "key-numbers-soundstage"]
 ---
 
 ## Des enceintes qui savent où vous êtes
@@ -37,4 +37,4 @@ Ce que dit la littérature : changer la **directivité** de l'enceinte (Laitinen
 - Un micro d'iPhone suffit pour cartographier et calibrer des enceintes, à condition de ne mesurer que des écarts et des rapports.
 - Une revue de code par un second modèle a trouvé cinq vrais défauts en une passe, dont deux que j'entendais sans les comprendre.
 
-Dessous, le rendu dans votre navigateur : au casque, déplacez-vous autour de la voix.
+Dessous : les mesures de la calibration (réelles), puis le rendu dans votre navigateur, au casque.

@@ -20,6 +20,7 @@ export const collections = {
             period: z.string(),
             takeaways: z.array(z.string()),
             images: media,
+            islands: z.array(z.enum(["soundstage-walk", "uwb-trilateration", "ranging-ladder", "superframe-animation", "body-block-story", "calibration-chart", "key-numbers-uwb", "key-numbers-soundstage", "key-numbers-mesh"])).optional(),
         })
     }),
     explorationParts: defineCollection({
@@ -28,7 +29,7 @@ export const collections = {
             tab: z.string(),
             order: z.number(),
             images: media.optional(),
-            islands: z.array(z.enum(["soundstage-walk", "uwb-trilateration"])).optional(),
+            islands: z.array(z.enum(["soundstage-walk", "uwb-trilateration", "ranging-ladder", "superframe-animation", "body-block-story", "calibration-chart", "key-numbers-uwb", "key-numbers-soundstage", "key-numbers-mesh"])).optional(),
         })
     }),
     projects: defineCollection({

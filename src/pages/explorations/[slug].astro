@@ -5,6 +5,11 @@ import SectionHeader from "../../components/SectionHeader.astro";
 import ProjectsSlider from "../../components/Carousel.jsx";
 import SoundStageWalk from "../../components/SoundStageWalk.jsx";
 import UwbTrilateration from "../../components/UwbTrilateration.jsx";
+import RangingLadder from "../../components/RangingLadder.jsx";
+import SuperframeAnimation from "../../components/SuperframeAnimation.jsx";
+import BodyBlockStory from "../../components/BodyBlockStory.jsx";
+import CalibrationChart from "../../components/CalibrationChart.jsx";
+import KeyNumbers from "../../components/KeyNumbers.jsx";
 
 export async function getStaticPaths() {
     const explorations = await getCollection("explorations");
@@ -54,6 +59,19 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
         <div class="prose dark:prose-invert !max-w-none">
             <Content />
         </div>
+        {(exploration.data.islands ?? []).map((island) => (
+            <div class="my-8">
+                {island === "soundstage-walk" && <SoundStageWalk client:visible />}
+                {island === "uwb-trilateration" && <UwbTrilateration client:visible />}
+                {island === "ranging-ladder" && <RangingLadder client:visible />}
+                {island === "superframe-animation" && <SuperframeAnimation client:visible />}
+                {island === "body-block-story" && <BodyBlockStory client:visible />}
+                {island === "calibration-chart" && <CalibrationChart client:visible />}
+                {island === "key-numbers-uwb" && <KeyNumbers set="uwb" client:visible={{ rootMargin: "200px" }} />}
+                {island === "key-numbers-soundstage" && <KeyNumbers set="soundstage" client:visible={{ rootMargin: "200px" }} />}
+                {island === "key-numbers-mesh" && <KeyNumbers set="mesh" client:visible={{ rootMargin: "200px" }} />}
+            </div>
+        ))}
 
         {parts.length > 0 && (
             <div
@@ -118,6 +136,13 @@ const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
                             <div class="my-8">
                                 {island === "soundstage-walk" && <SoundStageWalk client:visible />}
                                 {island === "uwb-trilateration" && <UwbTrilateration client:visible />}
+                                {island === "ranging-ladder" && <RangingLadder client:visible />}
+                                {island === "superframe-animation" && <SuperframeAnimation client:visible />}
+                                {island === "body-block-story" && <BodyBlockStory client:visible />}
+                                {island === "calibration-chart" && <CalibrationChart client:visible />}
+                                {island === "key-numbers-uwb" && <KeyNumbers set="uwb" client:visible={{ rootMargin: "200px" }} />}
+                                {island === "key-numbers-soundstage" && <KeyNumbers set="soundstage" client:visible={{ rootMargin: "200px" }} />}
+                                {island === "key-numbers-mesh" && <KeyNumbers set="mesh" client:visible={{ rootMargin: "200px" }} />}
                             </div>
                         ))}
                     </section>
