@@ -29,8 +29,8 @@
     <rect x="30" y="64" width="130" height="50" class="box"/>
     <text x="95" y="84" text-anchor="middle" class="t-b">DW3110</text>
     <text x="95" y="99" text-anchor="middle" class="t-s">UWB ch 5, 6.8 Mbit/s</text>
-    <text x="95" y="134" text-anchor="middle" class="t-s">chip antenna · 3.3 V only</text>
-    <text x="95" y="148" text-anchor="middle" class="t-s">15.65 ps timestamps</text>
+    <text x="95" y="134" text-anchor="middle" class="t-s">antenne intégrée · 3,3 V uniquement</text>
+    <text x="95" y="148" text-anchor="middle" class="t-s">horodatages à 15,65 ps</text>
     <path d="M95 30 L95 12 M83 4 L95 14 L107 4" class="ln"/>
     <!-- SPI -->
     <line x1="180" y1="78" x2="262" y2="78" class="ln" marker-end="url(#ah)" marker-start="url(#ah)"/>
@@ -39,26 +39,26 @@
     <text x="221" y="127" text-anchor="middle" class="t-s">IRQ · RSTn</text>
     <!-- pico -->
     <rect x="264" y="20" width="240" height="160" class="box-t"/>
-    <text x="384" y="40" text-anchor="middle" class="t-b">Raspberry Pi Pico (RP2040, 2 cores)</text>
+    <text x="384" y="40" text-anchor="middle" class="t-b">Raspberry Pi Pico (RP2040, 2 cœurs)</text>
     <rect x="278" y="52" width="212" height="54" class="rngs"/>
-    <text x="384" y="72" text-anchor="middle" class="t-b">core 0 — radio and MAC</text>
-    <text x="384" y="88" text-anchor="middle" class="t-s">slot timing, TX/RX, timestamps, sync</text>
-    <text x="384" y="100" text-anchor="middle" class="t-s">polled loop, worst pass ≈ 0.6 ms</text>
+    <text x="384" y="72" text-anchor="middle" class="t-b">cœur 0 — radio et MAC</text>
+    <text x="384" y="88" text-anchor="middle" class="t-s">cadencement, TX/RX, horodatages, synchro</text>
+    <text x="384" y="100" text-anchor="middle" class="t-s">boucle scrutée, pire passe ≈ 0,6 ms</text>
     <rect x="278" y="116" width="212" height="54" class="dats"/>
-    <text x="384" y="136" text-anchor="middle" class="t-b">core 1 — host side</text>
-    <text x="384" y="152" text-anchor="middle" class="t-s">range maths, reassembly, reports,</text>
-    <text x="384" y="164" text-anchor="middle" class="t-s">commands, flash settings</text>
+    <text x="384" y="136" text-anchor="middle" class="t-b">cœur 1 — côté hôte</text>
+    <text x="384" y="152" text-anchor="middle" class="t-s">calcul des distances, réassemblage, rapports,</text>
+    <text x="384" y="164" text-anchor="middle" class="t-s">commandes, réglages en flash</text>
     <line x1="384" y1="106" x2="384" y2="116" class="ln-m"/>
     <!-- host -->
     <line x1="504" y1="80" x2="566" y2="80" class="ln" marker-end="url(#ah)" marker-start="url(#ah)"/>
-    <text x="535" y="72" text-anchor="middle" class="t-s">USB serial</text>
+    <text x="535" y="72" text-anchor="middle" class="t-s">série USB</text>
     <rect x="568" y="56" width="102" height="48" class="box"/>
-    <text x="619" y="76" text-anchor="middle" class="t-b">Mac + viewer</text>
-    <text x="619" y="92" text-anchor="middle" class="t-s">today</text>
+    <text x="619" y="76" text-anchor="middle" class="t-b">Mac + visualiseur</text>
+    <text x="619" y="92" text-anchor="middle" class="t-s">aujourd'hui</text>
     <line x1="504" y1="144" x2="566" y2="144" class="ln-m dash" marker-end="url(#ahm)" marker-start="url(#ahm)"/>
     <text x="535" y="136" text-anchor="middle" class="t-s">UART</text>
     <rect x="568" y="120" width="102" height="48" class="box" stroke-dasharray="4 3"/>
-    <text x="619" y="140" text-anchor="middle" class="t-b">Flight controller</text>
-    <text x="619" y="156" text-anchor="middle" class="t-s">planned</text>
-    <text x="384" y="200" text-anchor="middle" class="t-s">Lock-free rings between the two cores keep serial traffic and maths out of the radio's timing path.</text>
+    <text x="619" y="140" text-anchor="middle" class="t-b">Contrôleur de vol</text>
+    <text x="619" y="156" text-anchor="middle" class="t-s">prévu</text>
+    <text x="384" y="200" text-anchor="middle" class="t-s">Des anneaux sans verrou entre les deux cœurs gardent le trafic série et les calculs hors du chemin temporel de la radio.</text>
   </svg>

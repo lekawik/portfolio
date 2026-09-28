@@ -98,13 +98,36 @@ export default function SoundStageWalk() {
         panner.positionX.value = OBJECT.x; panner.positionY.value = 0; panner.positionZ.value = -OBJECT.y;
     }, [listener, playing]);
 
+    const [walking, setWalking] = useState(false);
+    const walkRef = useRef(null);
+
+    // automatic walk: a slow loop around the object, so a visitor can just listen
+    useEffect(() => {
+        if (!walking) { cancelAnimationFrame(walkRef.current); return; }
+        const t0 = performance.now();
+        const tick = (now) => {
+            const a = ((now - t0) / 12000) * 2 * Math.PI;   // one lap in 12 s
+            setListener({ x: OBJECT.x + 1.4 * Math.cos(a), y: OBJECT.y + 1.2 * Math.sin(a) });
+            walkRef.current = requestAnimationFrame(tick);
+        };
+        walkRef.current = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(walkRef.current);
+    }, [walking]);
+
     const toggle = async () => {
         if (playing) {
-            audio.current?.src.stop(); audio.current?.ctx.close(); audio.current = null; setPlaying(false); return;
+            audio.current?.src.stop(); audio.current?.ctx.close(); audio.current = null; setPlaying(false); setWalking(false); return;
         }
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const src = ctx.createBufferSource();
-        src.buffer = makeVoiceLikeBuffer(ctx); src.loop = true;
+        try {
+            // the dry French reading used in the real system (LibriVox, public domain)
+            const data = await (await fetch("/assets/UWB-Voix.mp3")).arrayBuffer();
+            src.buffer = await ctx.decodeAudioData(data);
+        } catch {
+            src.buffer = makeVoiceLikeBuffer(ctx);
+        }
+        src.loop = true;
         const panner = ctx.createPanner();
         panner.panningModel = "HRTF"; panner.distanceModel = "inverse"; panner.refDistance = 0.5; panner.rolloffFactor = 1;
         const gain = ctx.createGain(); gain.gain.value = 0.6;
@@ -122,7 +145,7 @@ export default function SoundStageWalk() {
         const p = pt.matrixTransform(svg.getScreenCTM().inverse());
         return { x: Math.min(Math.max(p.x, 0.3), ROOM.w - 0.3), y: Math.min(Math.max(ROOM.h - p.y, 0.3), ROOM.h - 0.3) };
     };
-    const start = (e) => { dragging.current = true; setListener(toRoom(e)); };
+    const start = (e) => { dragging.current = true; setWalking(false); setListener(toRoom(e)); };
     const move = (e) => { if (dragging.current) { e.preventDefault(); setListener(toRoom(e)); } };
     const stop = () => { dragging.current = false; };
     const S = (p) => ({ x: p.x, y: ROOM.h - p.y });
@@ -134,13 +157,19 @@ export default function SoundStageWalk() {
                 <div>
                     <p className="text-title3 font-bold text-primary-text dark:text-primary-text-dark">Marche autour de la voix</p>
                     <p className="text-sm text-secondary-text dark:text-secondary-text-dark">
-                        Déplacez le point vert. Au casque, le navigateur rend la voix en binaural à sa vraie distance ; en dessous, ce que l'app enverrait à chaque enceinte.
+                        Déplacez le point vert, ou lancez le tour. Au casque, la voix (la vraie lecture utilisée dans le salon) est rendue en binaural à sa vraie distance ; en dessous, ce que l'app enverrait à chaque enceinte.
                     </p>
                 </div>
-                <button onClick={toggle}
-                    className={`shrink-0 rounded-full px-5 py-2.5 text-body font-medium transition-colors ${playing ? "bg-primary-text text-background-primary dark:bg-primary-text-dark dark:text-background-primary-dark" : "bg-accent text-white hover:opacity-90"}`}>
-                    {playing ? "Arrêter" : "Écouter"}
-                </button>
+                <div className="flex shrink-0 gap-2">
+                    <button onClick={toggle}
+                        className={`rounded-full px-5 py-2.5 text-body font-medium transition-colors ${playing ? "bg-primary-text text-background-primary dark:bg-primary-text-dark dark:text-background-primary-dark" : "bg-accent text-white hover:opacity-90"}`}>
+                        {playing ? "Arrêter" : "Écouter"}
+                    </button>
+                    <button onClick={() => setWalking((w) => !w)} title="Faire le tour de la voix automatiquement"
+                        className={`rounded-full px-4 py-2.5 text-body font-medium transition-colors ${walking ? "bg-accent text-white" : "bg-background-primary dark:bg-background-primary-dark text-primary-text dark:text-primary-text-dark hover:opacity-80"}`}>
+                        {walking ? "Stop" : "Tour"}
+                    </button>
+                </div>
             </div>
 
             <svg ref={svgRef} viewBox={`0 0 ${ROOM.w} ${ROOM.h}`}
