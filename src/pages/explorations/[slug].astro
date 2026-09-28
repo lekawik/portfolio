@@ -1,0 +1,118 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import ProjectsSlider from "../../components/Carousel.jsx";
+import SoundStageWalk from "../../components/SoundStageWalk.jsx";
+import UwbTrilateration from "../../components/UwbTrilateration.jsx";
+
+export async function getStaticPaths() {
+    const explorations = await getCollection("explorations");
+    const parts = await getCollection("explorationParts");
+    return explorations.map((exploration) => ({
+        params: { slug: exploration.slug },
+        props: {
+            exploration,
+            parts: parts
+                .filter((p) => p.data.parent === exploration.slug)
+                .sort((a, b) => a.data.order - b.data.order),
+        },
+    }));
+}
+
+const { exploration, parts } = Astro.props;
+const { Content } = await exploration.render();
+const rendered = await Promise.all(parts.map(async (p) => ({ part: p, Content: (await p.render()).Content })));
+const tabIds = parts.map((p) => p.slug.replace(`${exploration.slug}-`, ""));
+---
+
+<BaseLayout title={exploration.data.title} ogImage={exploration.data.images[0].path}>
+    <div class="mx-auto max-w-screen-md px-5">
+        <div class="space-y-1">
+            <SectionHeader title={exploration.data.title} />
+            <p class="text-body text-secondary-text dark:text-secondary-text-dark">
+                {exploration.data.description}
+            </p>
+            <p class="text-sm font-mono text-secondary-text dark:text-secondary-text-dark">
+                Exploration · {exploration.data.period}
+            </p>
+        </div>
+
+        <div class="my-10 relative z-0">
+            <ProjectsSlider images={exploration.data.images} client:load />
+        </div>
+
+        <aside class="border border-gray px-4 py-3 mb-8">
+            <p class="text-title3 font-bold text-primary-text dark:text-primary-text-dark mb-2">Ce que j'en retiens</p>
+            <ul class="list-disc pl-5 space-y-1">
+                {exploration.data.takeaways.map((t) => (
+                    <li class="text-body text-primary-text dark:text-primary-text-dark">{t}</li>
+                ))}
+            </ul>
+        </aside>
+
+        <div class="prose dark:prose-invert !max-w-none">
+            <Content />
+        </div>
+
+        {parts.length > 0 && (
+            <div
+                class="mt-10"
+                x-data={`{
+                    tabs: ${JSON.stringify(tabIds)},
+                    active: '${tabIds[0]}',
+                    init() {
+                        const h = window.location.hash.replace('#', '');
+                        if (this.tabs.includes(h)) this.active = h;
+                        window.addEventListener('hashchange', () => {
+                            const n = window.location.hash.replace('#', '');
+                            if (this.tabs.includes(n)) this.active = n;
+                        });
+                    },
+                    select(id) {
+                        this.active = id;
+                        history.replaceState(null, '', '#' + id);
+                    }
+                }`}
+            >
+                <div class="flex flex-wrap gap-2 border-b border-gray" role="tablist">
+                    {rendered.map(({ part }, i) => (
+                        <button
+                            role="tab"
+                            class="px-4 py-2 -mb-px border border-b-0 border-gray text-title3 text-primary-text dark:text-primary-text-dark"
+                            :class={`active === '${tabIds[i]}' ? 'bg-background-secondary dark:bg-background-secondary-dark font-bold' : 'opacity-60 hover:opacity-100'`}
+                            :aria-selected={`active === '${tabIds[i]}'`}
+                            @click={`select('${tabIds[i]}')`}
+                        >
+                            {part.data.tab}
+                        </button>
+                    ))}
+                </div>
+
+                {rendered.map(({ part, Content: PartContent }, i) => (
+                    <section
+                        role="tabpanel"
+                        id={tabIds[i]}
+                        x-show={`active === '${tabIds[i]}'`}
+                        x-cloak
+                        class="pt-6"
+                    >
+                        <div class="prose dark:prose-invert !max-w-none">
+                            <PartContent />
+                        </div>
+                        {(part.data.islands ?? []).map((island) => (
+                            <div class="my-8 border border-gray p-4">
+                                {island === "soundstage-walk" && <SoundStageWalk client:visible />}
+                                {island === "uwb-trilateration" && <UwbTrilateration client:visible />}
+                            </div>
+                        ))}
+                    </section>
+                ))}
+            </div>
+        )}
+    </div>
+</BaseLayout>
+
+<style is:global>
+    [x-cloak] { display: none !important; }
+</style>

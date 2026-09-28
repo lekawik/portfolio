@@ -1,0 +1,32 @@
+---
+import ExplorationCard from "./ExplorationCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { getCollection } from "astro:content";
+
+const explorations = await getCollection("explorations");
+---
+<div id="explorations">
+    <SectionHeader title="Explorations" />
+    <p class="text-body text-secondary-text dark:text-secondary-text-dark pt-2">
+        Pas des produits : des questions, des montages, des mesures, des impasses, et ce que j'en retiens.
+    </p>
+
+    <ul class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] pt-4">
+        {
+            explorations
+            .sort((a, b) => b.data.order - a.data.order)
+            .map((e) => (
+                <li>
+                    <ExplorationCard
+                        title={e.data.title}
+                        techs={e.data.techs}
+                        description={e.data.description}
+                        period={e.data.period}
+                        imagePath={e.data.images[0].path}
+                        url={`/explorations/${e.slug}`}
+                    />
+                </li>
+            ))
+        }
+    </ul>
+</div>
